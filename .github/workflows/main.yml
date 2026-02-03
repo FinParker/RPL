@@ -42,14 +42,18 @@ jobs:
             ~/.cargo/git
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - run: cargo fmt --check
-      - run: cargo test --all
-      - run: cargo test --all
+      - name: Format check
+        run: cargo fmt --check
+      - name: Test rpl with embedded patterns
+        run: cargo test --all
+      - name: Test rpl with external patterns (actually the same with embedded ones)
+        run: cargo test --all
         env:
           RPL_PATS: docs/patterns-pest
-      - run: cargo clippy -- -D warnings
+      - name: Run Clippy
+        run: cargo clippy -- -D warnings
       - name: Install rpl
         run: cargo install --path . --verbose
-      - name: Test rpl
+      - name: Test installed rpl
         run: cargo rpl --workspace --all-targets --verbose
       # - uses: actions-rust-lang/audit@v1.2.4
