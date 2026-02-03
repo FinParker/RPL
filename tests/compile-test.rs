@@ -205,7 +205,7 @@ impl TestContext {
 
         config.fill_host_and_target().unwrap();
 
-        dbg!(config)
+        config
     }
 }
 
