@@ -48,8 +48,8 @@ jobs:
         env:
           RPL_PATS: docs/patterns-pest
       - run: cargo clippy -- -D warnings
-      - name: Install and test rpl
-        run: |
-          cargo install --path . --verbose
-          cargo rpl --workspace --all-targets --verbose
+      - name: Install rpl
+        run: cargo install --path . --verbose
+      - name: Test rpl
+        run: cargo rpl --workspace --all-targets --verbose
       # - uses: actions-rust-lang/audit@v1.2.4
