@@ -12,7 +12,7 @@ use ui_test::custom_flags::edition::Edition;
 use ui_test::custom_flags::rustfix::RustfixMode;
 use ui_test::spanned::Spanned;
 use ui_test::status_emitter::StatusEmitter;
-use ui_test::{Args, Config, error_on_output_conflict, status_emitter};
+use ui_test::{Args, Config, Match, error_on_output_conflict};
 
 // Test dependencies may need an `extern crate` here to ensure that they show up
 // in the depinfo file (otherwise cargo thinks they are unused)
@@ -198,6 +198,14 @@ impl TestContext {
         config.program.program = profile_path.join(if cfg!(windows) { "rpl-driver.exe" } else { "rpl-driver" });
 
         config
+            .comment_defaults
+            .base()
+            .normalize_stderr
+            .push((Match::from(env::current_dir().unwrap().as_path()), b"$DIR".into()));
+
+        config.fill_host_and_target().unwrap();
+
+        dbg!(config)
     }
 }
 
