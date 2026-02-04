@@ -1,6 +1,7 @@
 use std::env::VarError;
 use std::fs::{File, read_to_string};
 use std::io::Write as _;
+use std::path::Path;
 use std::process::{Command, Stdio};
 
 use quote::quote;
@@ -55,7 +56,7 @@ fn find_rustfmt_path() -> Result<Option<String>, Box<dyn std::error::Error>> {
         Err(e) => return Err(Box::new(e)),
     };
 
-    let toolchains_dir = format!("{}/toolchains", rustup_home);
+    let toolchains_dir = Path::new(&rustup_home).join("toolchains");
     let toolchains = std::fs::read_dir(toolchains_dir)?
         .filter_map(|entry| entry.ok())
         .filter(|entry| entry.file_type().map(|ft| ft.is_dir()).unwrap_or(false))
